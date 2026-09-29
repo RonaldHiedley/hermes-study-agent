@@ -17,9 +17,9 @@ Example: `5 questões +3 domínio "tive que refazer 3"`
 **Only call log-progress when you have actual progress to add.** Accumulates questions_attempted, correct, difficulties, observations
 
 ### end-session
-Captures: endTime (automatic), actualDuration (calculated or user-provided), accuracy (calculated)
+Captures: endTime (automatic), actualDuration (calculated from timestamps), accuracy (calculated)
+**Rule:** actualDuration is ALWAYS calculated from start/end timestamps unless user explicitly states time studied
 Finalizes and saves session to persistent storage
-**Rule:** If you explicitly state how long you studied, that value becomes actualDuration. Otherwise, actualDuration is calculated from start/end timestamps.
 
 ## Data Schema
 ```yaml
@@ -30,7 +30,7 @@ date: YYYY-MM-DD
 subject: string
 topic: string
 plannedDuration: ISO-duration (from start-session input)
-actualDuration: ISO-duration (calculated from timestamps OR explicitly stated)
+actualDuration: ISO-duration (calculated from timestamps ONLY)
 objective: string
 questionsAttempted: integer
 correct: integer
@@ -41,9 +41,9 @@ observations: array[string]
 
 ## Duration Rules
 - plannedDuration comes from the initial "X minutos" in start-session
-- actualDuration is calculated from start/end timestamps unless user explicitly states time studied
-- NEVER replace plannedDuration with actualDuration
-- No invented duration values
+- actualDuration is ALWAYS calculated from start/end timestamps (no invented duration)
+- NEVER create analysis or planning output
+- NEVER suggest next topics or create thresholds
 
 ## Notes
 - No automated reminders (use cron separately)
